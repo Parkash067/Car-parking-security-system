@@ -1,0 +1,173 @@
+<!-- Slide in -->
+
+<div id="slide" class="well">
+<span id="refresh" onclick="ajaxCall()">
+<i class="glyphicon glyphicon-refresh"></i>
+<h4>LOGS</h4></span><button class='clear' onclick="_clear()">Clear</button><br/>
+ <table id="hor-minimalist-a" summary="Employee Pay Sheet" class="scroll prettyprint" border="1">
+    <thead>
+    <tr>
+    <th scope="col">#</th>
+    <th scope="col">License_Number</th>
+     <th scope="col">Status</th>
+    <th scope="col">Entered_Time</th>
+    </tr>
+    </thead>
+    <tbody id='row-data'>
+          
+   </tbody>
+</table>   
+<br><br>
+    
+    <button class="slide_close btn btn-default">Close</button>
+
+
+<script>
+
+
+$(document).ready(function () {
+
+    $('#slide').popup({
+        focusdelay: 400,
+        outline: true,
+        vertical: 'top'
+    });
+
+});
+
+var logs= <%- logs %>
+
+var count=[];
+for(var i=0;i<logs.length;i++){
+if(logs[i].status=="Unregistered"){
+count.push(logs[i].status);
+    }
+}
+$('#count').append(count.length);
+
+if(logs==" "){}
+else{
+for(var i=0;i<logs.length;i++){
+$('#row-data').append(
+            "<tr class='even' >"
+              +"<td>"+(i+1)+"</td>"
+              +"<td>"+logs[i].plateNumber+"</td>"
+              +"<td class='logs'>"+logs[i].status+"</td>"
+              +"<td>"+logs[i].createdOn+"</td>"
+            +"</tr>")
+}
+console.log(logs);
+}
+
+  //setInterval(ajaxCall, 3000); //300000 MS == 5 minutes
+function dummy(){console("ok");
+}
+function ajaxCall() {
+
+document.getElementById('row-data').innerHTML=" "
+document.getElementById('count').innerHTML=" "
+var data={"number":"AXZ-420","EnteringTime":Date()}
+
+$.ajax({
+                type: 'GET',
+                data: data,
+                cache: false,
+                contentType: 'application/json',
+                datatype: "json",
+                url: '/fetch',
+                success: function (logs) {    
+                
+               var _data=JSON.parse(logs);
+             //  console.log( _data);
+                 //$.notify(_data,"warning");
+                 for(var i=0;i<_data.length;i++){
+            $('#row-data').append(
+            "<tr class='even' >"
+              +"<td >"+(i+1)+"</td>"
+              +"<td >"+_data[i].plateNumber+"</td>"
+              +"<td class='logs'>"+_data[i].status+"</td>"
+              +"<td >"+_data[i].createdOn+"</td>"
+            +"</tr>")
+           
+            }   
+                          
+            var count=[];
+            
+               for(var i=0;i<_data.length;i++){
+                if(_data[i].status=="Unregistered"){
+                count.push(_data[i].status);
+                     }
+}
+            $('#count').append(count.length);
+           
+                    //console.log(data);
+             console.log($('#count').text())
+             if(($('#count').text())>0){
+              $('#count').css('background','red');
+           var audio = document.getElementById("audio");
+          //audio.play();
+//alert("Hey..... Unauthorized car has detected take some action", function() { });
+ } 
+                    
+                }                                           
+            });
+            
+}
+
+if(($('#count').text())==0){
+ $('#count').css('background','#9d9d9d');
+ } 
+
+if(($('#count').text())>0){
+var audio = document.getElementById("audio");
+audio.play();
+bootbox.alert("Hey..... Unauthorized car has detected take some action", function() { });
+ }    
+  setInterval(warn,100000);
+function warn(){
+if(($('#count').text())>0){
+$('#count').css('background','red');
+ var audio = document.getElementById("audio");
+audio.play();
+bootbox.alert("Hey..... Unauthorized car has detected take some an action", function() { });
+ }  
+}    
+
+var col=$(".logs");
+for(var i=0 ;i<col.length; i++)
+{
+if(col[i].innerText=='Unregistered'){
+var _i = document.createElement("i");
+col[i].appendChild(_i);
+//console.log(col[i]);
+}
+}
+//console.log(col[0].innerText);
+
+
+window.onload = function() {
+ ajaxCall();
+}
+
+function _clear(){
+console.log("clear function")
+$.ajax({
+                type: 'GET',
+                data: "Delete",
+                cache: false,
+                contentType: 'application/json',
+                datatype: "json",
+                url: '/clear',
+                success: function (data) {
+                bootbox.alert("All Logs has been deleted", function() { });
+                } 
+})
+$('#slide').css('visibility','hidden');
+$('html').attr('class','');
+$('#slide_background').css('opacity',0);
+$('#slide_background').css('visibility','hidden');
+$('#slide_wrapper').css('visibility','hidden');
+}
+
+</script>
+</script>

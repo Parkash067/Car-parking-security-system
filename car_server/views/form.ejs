@@ -1,0 +1,95 @@
+<div id="standalone">
+	<div class="container">
+
+		<div class="row">
+			
+			<!-- Article main content -->
+			<article class="col-xs-12 maincontent"><br>
+				
+				<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+					<div class="panel panel-default">
+						<div class="panel-body">
+                        
+							 <i class="standalone_close glyphicon glyphicon-remove"></i><h3 class="thin text-center">Register a new car</h3>
+								<hr>
+
+							<form action="/" method="POST">
+                                <div class="row top-margin">
+									<div class="col-sm-6">
+										<label>First Name <span class="text-danger">*</span></label>
+										<input type="text" class="form-control" name="firstname">
+									</div>
+									<div class="col-sm-6">
+										<label>Last Name <span class="text-danger">*</span></label>
+										<input type="text" class="form-control" name="lastname">
+									</div>
+								</div>
+                                <div class="row top-margin">
+									<div class="col-sm-6">
+										<label>NIC<span class="text-danger">*</span></label>
+										<input type="number" class="form-control" name="nic">
+									</div>
+									<div class="col-sm-6">
+										<label>License Number<span class="text-danger">*</span></label>
+										<input type="text" class="form-control" name="licensenumber">
+									</div>
+								</div>
+                                
+                                <div class="row top-margin">
+									<div class="col-sm-6">
+										<label>Contact Number <span class="text-danger">*</span></label>
+										<input type="number" class="form-control" name="contactnumber">
+									</div>
+									<div class="col-sm-6">
+										<label>City<span class="text-danger">*</span></label>
+										<input type="text" class="form-control" name="city">
+									</div>
+								</div>
+					
+								<div class="top-margin">
+									<label>Email Address <span class="text-danger">*</span></label>
+									<input type="email" class="form-control" name="email">
+								</div>
+                                
+                                <div class="top-margin">
+									<label>Address <span class="text-danger">*</span></label>
+									<input type="text" class="form-control" name="address">
+								</div>
+
+
+								<hr>
+
+								<div class="row">
+									<div class="col-lg-4 text-right">
+										<button class="btn btn-action" type="submit">Register</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+
+				</div>
+				
+			</article>
+			<!-- /Article -->
+
+		</div>
+	</div>	
+   
+    
+</div>
+
+
+
+<script>
+$(document).ready(function () {
+
+    $('#standalone').popup({
+      color: 'white',
+      opacity: 1,
+      transition: '0.3s',
+      scrolllock: true
+    });
+
+});
+</script>

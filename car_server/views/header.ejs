@@ -1,0 +1,97 @@
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"    content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author"      content="Sergey Pozhilov (GetTemplate.com)">
+	
+	<title>(CPSS)Car parking security system</title>
+
+	<link rel="shortcut icon" href="images/car.png">
+	
+	<link rel="stylesheet" media="screen" href="/css/fonts.css">
+	<link rel="stylesheet" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+
+	<!-- Custom styles for our template -->
+    <link rel="stylesheet" href="/css/bootstrap-theme.css" media="screen" >
+	<link rel="stylesheet" href="/css/main.css">
+
+<!-- Optional theme -->
+
+<!-- Latest compiled and minified JavaScript -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/js/jquery.popupoverlay.js"></script>
+    <script src="/js/bootbox.min.js"></script>
+    <script>
+        $(function() {
+	var $window = $(window), $document = $(document),
+		transitionSupported = typeof document.body.style.transitionProperty === "string", // detect CSS transition support
+		scrollTime = 1; // scroll time in seconds
+
+	$(document).on("click", "a[href*=#]:not([href=#])", function(e) {
+		var target, avail, scroll, deltaScroll;
+    
+		if (location.pathname.replace(/^\//, "") == this.pathname.replace(/^\//, "") && location.hostname == this.hostname) {
+			target = $(this.hash);
+			target = target.length ? target : $("[id=" + this.hash.slice(1) + "]");
+
+			if (target.length) {
+				avail = $document.height() - $window.height();
+
+				if (avail > 0) {
+					scroll = target.offset().top;
+          
+					if (scroll > avail) {
+						scroll = avail;
+					}
+				} else {
+					scroll = 0;
+				}
+
+				deltaScroll = $window.scrollTop() - scroll;
+
+				// if we don't have to scroll because we're already at the right scrolling level,
+				if (!deltaScroll) {
+					return; // do nothing
+				}
+
+				e.preventDefault();
+				
+				if (transitionSupported) {
+					$("html").css({
+						"margin-top": deltaScroll + "px",
+						"transition": scrollTime + "s ease-in-out"
+					}).data("transitioning", scroll);
+				} else {
+					$("html, body").stop(true, true) // stop potential other jQuery animation (assuming we're the only one doing it)
+					.animate({
+						scrollTop: scroll + "px"
+					}, scrollTime * 1000);
+					
+					return;
+				}
+			}
+		}
+	});
+
+	if (transitionSupported) {
+		$("html").on("transitionend webkitTransitionEnd msTransitionEnd oTransitionEnd", function(e) {
+			var $this = $(this),
+				scroll = $this.data("transitioning");
+			
+			if (e.target === e.currentTarget && scroll) {
+				$this.removeAttr("style").removeData("transitioning");
+				
+				$("html, body").scrollTop(scroll);
+			}
+		});
+	}
+});
+    </script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="assets/js/html5shiv.js"></script>
+	<script src="assets/js/respond.min.js"></script>
+	<![endif]-->
+</head>

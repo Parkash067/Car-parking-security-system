@@ -1,0 +1,105 @@
+
+<div id="fade" class="well1">
+<i class='fade_close  glyphicon glyphicon-remove' ></i>
+<span id="refresh" onclick="enteriesAjaxCall()">
+<i class="glyphicon glyphicon-refresh"></i>
+<h4>Entries</h4><br/><span>
+ <table id="hor-minimalist-a" summary="Employee Pay Sheet" class="scroll prettyprint entriestable" border="1" >
+    <thead class="entry-head">
+    <tr>
+    <th scope="col">#</th>
+     <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
+       <th scope="col">NIC</th>
+    <th scope="col">License Number</th>
+     <th scope="col">Contact Number</th>
+      <th scope="col">City</th>
+       <th scope="col">Email</th>
+        <th scope="col">Address</th>
+     <th scope="col">Status</th>
+    <th scope="col">Registration Time</th>
+    <th scope="col">Options</th>
+    </tr>
+    </thead>
+    <tbody id='row-data-enteries' class="entry-body">
+          
+   </tbody>
+</table>   
+    
+</div>
+
+<script>
+$(document).ready(function () {
+
+    $('#fade').popup({
+      transition: 'all 0.3s',
+      scrolllock: true
+    });
+
+});
+
+
+function enteriesAjaxCall() {
+document.getElementById('row-data-enteries').innerHTML=" "
+document.getElementById('count').innerHTML=" "
+var data={"number":"AXZ-420","EnteringTime":Date()}
+
+$.ajax({
+                type: 'GET',
+                data: data,
+                cache: false,
+                contentType: 'application/json',
+                datatype: "json",
+                url: '/enteries',
+                success: function (logs) {    
+                
+               var _data=JSON.parse(logs);
+               console.log( _data);
+                 //$.notify(_data,"warning");
+                 for(var i=0;i<_data.length;i++){
+                 if(_data!=" "){
+            $('#row-data-enteries').append(
+            "<tr class='even' >"
+              +"<td>"+(i+1)+"</td>"
+              +"<td>"+_data[i].firstname+"</td>"
+              +"<td>"+_data[i].lastname+"</td>"
+              +"<td>"+_data[i].nic+"</td>"
+              +"<td>"+_data[i].licenseNumber+"</td>"
+              +"<td>"+_data[i].contactNumber+"</td>"
+               +"<td>"+_data[i].city+"</td>"
+                +"<td>"+_data[i].email+"</td>"
+                 +"<td>"+_data[i].address+"</td>"
+                   +"<td>"+_data[i].status+"</td>"
+                  +"<td>"+_data[i].createdOn+"</td>"
+                   +"<td><a href='' id="+_data[i]._id+" onclick='deleteAjaxCall(id)'><i class='glyphicon glyphicon-trash'></i></a></td>"
+                
+            +"</tr>")
+        }
+}                     
+    
+                }                                           
+            });
+            
+}
+
+
+function deleteAjaxCall(id) {
+var data={"id":id};
+console.log(data);
+$.ajax({
+                type: 'GET',
+                data: data,
+                cache: false,
+                contentType: 'application/json',
+                datatype: "json",
+                url: '/delete',
+                success: function (logs) {    
+                 var _data=JSON.parse(logs);
+                 bootbox.alert("Record Deleted", function() { });
+                 }
+                                                     
+            });
+            
+}
+</script>
+ 

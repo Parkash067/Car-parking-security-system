@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<% include header %>
+<body class="home">
+	<!-- Fixed navbar -->
+<div class="navbar navbar-inverse navbar-fixed-top " >
+		<div class="container">
+			<div class="navbar-header">
+				<!-- Button for smallest screens -->
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+				<a class="smoothscroll" href="/"><img src="images/car.ico" class="icon"/><span class="SecuritySystem">Security <span class='s'>S</span>ystem</span></a>
+			</div>
+			
+		</div>
+	</div> 
+
+<div>
+<br><br><br><br><br>
+<span id="refresh" onclick="enteriesAjaxCall()">
+<div class='scoll-enteries'>
+<h2 class='entriestable'><i class="glyphicon glyphicon-refresh"></i>Entries</h2><br/>
+</div>
+</span>
+
+<span id="search-entries"><label>Search</label>
+<p>
+<input id="find" type="text" class="search-entry" placeholder="Search" required />
+<i class="glyphicon glyphicon-search" onclick='search()'></i>
+</p>
+</span>
+<div>
+ <table id="hor-minimalist-a" summary="Employee Pay Sheet" class="scroll prettyprint entriestable" border="1" >
+    <thead class="entry-head">
+    <tr>
+    <th scope="col">#</th>
+     <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
+       <th scope="col">NIC</th>
+    <th scope="col">License Number</th>
+     <th scope="col">Contact Number</th>
+      <th scope="col">City</th>
+       <th scope="col">Email</th>
+        <th scope="col">Address</th>
+     <th scope="col">Status</th>
+    <th scope="col">Registration Time</th>
+    <th scope="col">Options</th>
+    </tr>
+    </thead>
+    <tbody id='row-data-enteries' class="entry-body">
+          
+   </tbody>
+</table>   
+    
+</div>
+
+<script>
+$(document).ready(function () {
+
+    $('#fade').popup({
+      transition: 'all 0.3s',
+      scrolllock: true
+    });
+
+});
+
+
+var _data=<%- enteries %>;
+               console.log( _data);
+                 //$.notify(_data,"warning");
+                 for(var i=0;i<_data.length;i++){
+                 if(_data!=" "){
+            $('#row-data-enteries').append(
+            "<tr class='even' >"
+              +"<td>"+(i+1)+"</td>"
+              +"<td>"+_data[i].firstname+"</td>"
+              +"<td>"+_data[i].lastname+"</td>"
+              +"<td>"+_data[i].nic+"</td>"
+              +"<td class='licenseNumber'>"+_data[i].licenseNumber+"</td>"
+              +"<td>"+_data[i].contactNumber+"</td>"
+               +"<td>"+_data[i].city+"</td>"
+                +"<td>"+_data[i].email+"</td>"
+                 +"<td>"+_data[i].address+"</td>"
+                   +"<td>"+_data[i].status+"</td>"
+                  +"<td>"+_data[i].createdOn+"</td>"
+                   +"<td><a href='' id="+_data[i]._id+" onclick='deleteAjaxCall(id)'><i class='glyphicon glyphicon-trash'></i></a></td>"
+                
+            +"</tr>")
+        }
+}         
+
+
+
+
+
+function enteriesAjaxCall() {
+document.getElementById('row-data-enteries').innerHTML=" "
+
+var data={"number":"AXZ-420","EnteringTime":Date()}
+
+$.ajax({
+                type: 'GET',
+                data: data,
+                cache: false,
+                contentType: 'application/json',
+                datatype: "json",
+                url: '/refresh',
+                success: function (logs) {    
+                
+               var _data=JSON.parse(logs);
+               console.log( _data);
+                 //$.notify(_data,"warning");
+                 for(var i=0;i<_data.length;i++){
+                 if(_data!=" "){
+            $('#row-data-enteries').append(
+            "<tr class='even' >"
+              +"<td>"+(i+1)+"</td>"
+              +"<td>"+_data[i].firstname+"</td>"
+              +"<td>"+_data[i].lastname+"</td>"
+              +"<td>"+_data[i].nic+"</td>"
+              +"<td class='licenseNumber'>"+_data[i].licenseNumber+"</td>"
+              +"<td>"+_data[i].contactNumber+"</td>"
+               +"<td>"+_data[i].city+"</td>"
+                +"<td>"+_data[i].email+"</td>"
+                 +"<td>"+_data[i].address+"</td>"
+                   +"<td>"+_data[i].status+"</td>"
+                  +"<td>"+_data[i].createdOn+"</td>"
+                   +"<td><a href='' id="+_data[i]._id+" onclick='deleteAjaxCall(id)'><i class='glyphicon glyphicon-trash'></i></a></td>"
+                
+            +"</tr>")
+        }
+}                     
+    
+                }                                           
+            });
+            
+}
+
+
+function deleteAjaxCall(id) {
+//var _data={"id":id};
+var data={"id":id}
+
+console.log(data);
+$.ajax({
+                type: 'GET',
+                data: data,
+                cache: false,
+                contentType: 'application/json',
+                datatype: "json",
+                url: '/delete',
+                success: function (logs) {    
+                 var _data=JSON.parse(logs);
+                 bootbox.alert("Record Deleted", function() { });
+                 }
+                                                     
+            });
+            
+}
+
+function search(){
+var plateNumber=$('#find').val();
+var col=$(".licenseNumber");
+for(var i=0 ;i<col.length; i++)
+        {
+            if(col[i].innerText==plateNumber){
+               col[i].parentNode.style.backgroundColor='lightgreen';
+                
+                console.log(col[i].parentNode);
+                }
+        }
+                
+}
+</script>
+
+ </body>
+ </html>
